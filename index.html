@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Три основы для детей — учебные карточки</title>
+  <style>
+    :root{
+      --bg:#f7f4ec;
+      --paper:#fffaf1;
+      --card:#ffffff;
+      --ink:#27312c;
+      --muted:#6f786f;
+      --green:#6f9f82;
+      --green-dark:#48715a;
+      --mint:#e8f2e6;
+      --sand:#efe1c5;
+      --gold:#d6a94f;
+      --rose:#f1d9cf;
+      --line:rgba(39,49,44,.12);
+      --shadow:0 18px 45px rgba(39,49,44,.10);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(214,169,79,.20), transparent 28%),
+        radial-gradient(circle at 90% 5%, rgba(111,159,130,.20), transparent 28%),
+        linear-gradient(180deg,var(--bg),#fbf8f0 55%,#f3ead8);
+      color:var(--ink);
+      min-height:100vh;
+    }
+    a{color:inherit}
+    .app{max-width:1180px;margin:0 auto;padding:20px 16px 90px}
+    .topbar{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(18px);
+      background:rgba(247,244,236,.82);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.02em}
+    .brand-badge{width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,var(--green),var(--gold));box-shadow:0 10px 22px rgba(72,113,90,.22);display:grid;place-items:center;color:#fff;font-weight:900}
+    .nav{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+    .nav button,.ghost-btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.65);
+      color:var(--ink);
+      padding:10px 13px;
+      border-radius:999px;
+      font-weight:750;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:.2s ease;
+    }
+    .nav button:hover,.ghost-btn:hover{transform:translateY(-1px);background:#fff;box-shadow:0 8px 18px rgba(39,49,44,.08)}
+    .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:stretch;margin-top:24px}
+    .hero-card{
+      background:linear-gradient(145deg,#fffaf1,#ffffff 58%,#edf5ea);
+      border:1px solid var(--line);
+      border-radius:32px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-card:after{content:"";position:absolute;right:-80px;top:-80px;width:240px;height:240px;border-radius:80px;background:rgba(111,159,130,.15);transform:rotate(18deg)}
+    .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--mint);color:var(--green-dark);padding:9px 13px;border-radius:999px;font-weight:850;font-size:14px}
+    h1{font-size:clamp(34px,6vw,64px);line-height:.98;margin:20px 0 14px;letter-spacing:-.055em}
+    .lead{font-size:19px;line-height:1.6;color:#49544e;max-width:760px;margin:0 0 22px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+    .primary-btn{
+      border:0;background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;
+      padding:14px 18px;border-radius:18px;font-weight:900;cursor:pointer;box-shadow:0 14px 25px rgba(72,113,90,.25);transition:.2s ease;
+    }
+    .primary-btn:hover{transform:translateY(-2px);box-shadow:0 18px 32px rgba(72,113,90,.30)}
+    .side-card{background:rgba(255,250,241,.76);border:1px solid var(--line);border-radius:32px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
+    .mini-progress{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px}
+    .progress-line{height:12px;background:#eee5d1;border-radius:999px;overflow:hidden;margin:13px 0}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:999px;transition:.3s ease}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center}
+    .stat b{font-size:22px;display:block}.stat span{font-size:12px;color:var(--muted);font-weight:700}
+    section{margin-top:28px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 14px}
+    h2{font-size:clamp(26px,4vw,42px);line-height:1.05;letter-spacing:-.04em;margin:0}
+    .section-note{color:var(--muted);line-height:1.55;max-width:690px;margin:8px 0 0}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .basis-card,.learn-card,.word-card,.parent-card{
+      background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 10px 25px rgba(39,49,44,.07);
+    }
+    .basis-card{min-height:235px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;cursor:pointer;transition:.2s ease}
+    .basis-card:hover,.learn-card:hover{transform:translateY(-3px);box-shadow:0 18px 32px rgba(39,49,44,.10)}
+    .basis-card:before{content:"";position:absolute;right:-40px;bottom:-50px;width:140px;height:140px;border-radius:50%;background:rgba(214,169,79,.15)}
+    .num{width:40px;height:40px;border-radius:15px;background:var(--mint);display:grid;place-items:center;color:var(--green-dark);font-weight:900}
+    .basis-card h3,.learn-card h3,.word-card h3{font-size:22px;letter-spacing:-.03em;margin:14px 0 8px}
+    .basis-card p,.learn-card p,.word-card p,.parent-card p{color:#4f5a54;line-height:1.55;margin:0}
+    .pill{display:inline-flex;padding:7px 10px;border-radius:999px;background:#fff3d3;color:#80622a;font-weight:850;font-size:12px;margin-top:12px}
+    .route{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
+    .lesson-list{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:26px;padding:12px;max-height:680px;overflow:auto;box-shadow:var(--shadow)}
+    .lesson-item{width:100%;border:1px solid transparent;background:transparent;text-align:left;padding:13px 12px;border-radius:18px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;transition:.15s ease;color:var(--ink)}
+    .lesson-item:hover{background:#fff;border-color:var(--line)}
+    .lesson-item.active{background:var(--mint);border-color:rgba(111,159,130,.35)}
+    .lesson-item.done .lesson-no{background:linear-gradient(135deg,var(--green),var(--gold));color:#fff}
+    .lesson-no{flex:0 0 34px;height:34px;border-radius:12px;background:#f0eadb;display:grid;place-items:center;font-weight:900;color:#776b54;font-size:13px}
+    .lesson-title{font-weight:850;line-height:1.28;font-size:14px}.lesson-meta{font-size:12px;color:var(--muted);margin-top:3px}
+    .lesson-panel{background:linear-gradient(145deg,#fff,#fffaf1);border:1px solid var(--line);border-radius:30px;padding:24px;box-shadow:var(--shadow);min-height:520px;position:sticky;top:86px}
+    .lesson-panel h3{font-size:30px;letter-spacing:-.04em;margin:8px 0 12px;line-height:1.1}
+    .lesson-block{padding:16px;border-radius:20px;margin:12px 0;background:#fbf6e9;border:1px solid rgba(39,49,44,.08)}
+    .lesson-block strong{display:block;margin-bottom:6px;color:var(--green-dark)}
+    .small{font-size:13px;color:var(--muted);line-height:1.5}
+    .check-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+    .done-btn{border:0;background:var(--ink);color:#fff;border-radius:16px;padding:13px 15px;font-weight:900;cursor:pointer}
+    .reset-btn{border:1px solid var(--line);background:#fff;border-radius:16px;padding:13px 15px;font-weight:850;cursor:pointer;color:var(--ink)}
+    .quiz-box{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .qa{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 10px 22px rgba(39,49,44,.06)}
+    .qa b{display:block;font-size:17px;margin-bottom:8px}.qa p{margin:0;color:#4f5a54;line-height:1.55}
+    .words{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .parent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .footer{margin-top:36px;padding:22px;border-radius:26px;background:rgba(39,49,44,.06);color:#58635d;line-height:1.55;font-size:14px}
+    .modal{position:fixed;inset:0;background:rgba(22,30,26,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:99;backdrop-filter:blur(8px)}
+    .modal.open{display:flex}.modal-card{max-width:680px;width:100%;background:#fffaf1;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.22)}
+    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.close{border:0;background:#efe5cf;border-radius:14px;padding:10px 13px;font-weight:900;cursor:pointer}
+    .modal h3{font-size:30px;letter-spacing:-.04em;margin:0 0 10px}.modal p{line-height:1.6;color:#4f5a54}.modal .answer{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:12px}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.route{grid-template-columns:1fr}.lesson-panel{position:static}.quiz-box{grid-template-columns:1fr}.words{grid-template-columns:1fr 1fr}.parent-grid{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}.nav{width:100%}.stats{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:520px){.app{padding:14px 12px 70px}.hero-card,.side-card{border-radius:26px;padding:20px}h1{font-size:40px}.lead{font-size:16px}.words{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.lesson-panel h3{font-size:25px}.section-head{display:block}}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><div class="brand-badge">3</div><div>Три основы<br><span style="font-size:12px;color:var(--muted);font-weight:750">для детей</span></div></div>
+      <div class="nav">
+        <button onclick="go('home')">Главная</button>
+        <button onclick="go('why')">Зачем</button>
+        <button onclick="go('basis')">3 основы</button>
+        <button onclick="go('lessons')">Карточки</button>
+        <button onclick="go('repeat')">Повторение</button>
+        <button onclick="go('words')">Словарик</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="app" id="home">
+    <div class="hero">
+      <div class="hero-card">
+        <span class="kicker">Учимся спокойно и понятно</span>
+        <h1>Три основы — легко и понятно</h1>
+        <p class="lead">Здесь ребёнок сначала узнаёт смысл, потом видит простой пример, отвечает на вопрос и закрепляет знание маленьким делом. Без спешки, без давления — шаг за шагом.</p>
+        <div class="actions">
+          <button class="primary-btn" onclick="go('lessons')">Начать учиться</button>
+          <button class="ghost-btn" onclick="go('basis')">Узнать 3 основы</button>
+          <button class="ghost-btn" onclick="go('parent')">Для родителя</button>
+        </div>
+      </div>
+      <div class="side-card">
+        <div class="mini-progress">
+          <b>Мои шаги сегодня</b>
+          <div class="progress-line"><div class="progress-fill" id="progressFill"></div></div>
+          <p class="small" id="progressText">Пока ничего не отмечено. Начни с первой карточки — и первый шаг уже сделан.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b id="doneCount">0</b><span>выучено</span></div>
+          <div class="stat"><b id="leftCount">40</b><span>впереди</span></div>
+          <div class="stat"><b id="starCount">0</b><span>звёздочек</span></div>
+        </div>
+        <div class="mini-progress">
+          <b>Главное, что мы учим</b>
+          <p class="small" style="margin-top:8px">Кто заботится обо мне, свою религию и своего Пророка ﷺ.</p>
+        </div>
+      </div>
+    </div>
+
+    <section id="why">
+      <div class="section-head">
+        <div>
+          <h2>Зачем это нужно?</h2>
+          <p class="section-note">Чтобы ребёнок не просто запоминал слова, а понимал их сердцем и мог спокойно объяснить.</p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="learn-card"><div class="num">1</div><h3>Кто заботится обо мне</h3><p>Ребёнок узнаёт: Аллах создал нас, даёт нам всё нужное и достоин поклонения.</p></div>
+        <div class="learn-card"><div class="num">2</div><h3>Мой путь — Ислам</h3><p>Ислам учит поклоняться Аллаху, говорить правду, делать добро и быть послушным.</p></div>
+        <div class="learn-card"><div class="num">3</div><h3>Мой Пророк ﷺ</h3><p>Ребёнок узнаёт, что Мухаммад ﷺ учил людей Исламу, добру, милости и правильному поклонению.</p></div>
+      </div>
+    </section>
+
+    <section id="basis">
+      <div class="section-head">
+        <div>
+          <h2>Три главные основы</h2>
+          <p class="section-note">Нажми на карточку — увидишь простой ответ и объяснение.</p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="basis-card" onclick="openBasis(0)"><div><div class="num">1</div><h3>Кто твой Господь?</h3><p>Мой Господь — Аллах.</p></div><span class="pill">знать Аллаха</span></div>
+        <div class="basis-card" onclick="openBasis(1)"><div><div class="num">2</div><h3>Какая твоя религия?</h3><p>Моя религия — Ислам.</p></div><span class="pill">знать Ислам</span></div>
+        <div class="basis-card" onclick="openBasis(2)"><div><div class="num">3</div><h3>Кто твой Пророк ﷺ?</h3><p>Мой Пророк — Мухаммад ﷺ.</p></div><span class="pill">любить путь Пророка ﷺ</span></div>
+      </div>
+    </section>
+
+    <section id="lessons">
+      <div class="section-head">
+        <div>
+          <h2>40 коротких карточек</h2>
+          <p class="section-note">Это не лекции и не экзамен. В каждой карточке: короткий ответ, простой смысл, вопрос и маленькое доброе действие.</p>
+        </div>
+        <button class="reset-btn" onclick="resetProgress()">Начать заново</button>
+      </div>
+      <div class="route">
+        <div class="lesson-list" id="lessonList"></div>
+        <div class="lesson-panel" id="lessonPanel"></div>
+      </div>
+    </section>
+
+    <section id="repeat">
+      <div class="section-head">
+        <div>
+          <h2>Повторяем спокойно</h2>
+          <p class="section-note">Эти вопросы лучше задавать после карточек. Не строго, а мягко — как добрую беседу дома.</p>
+        </div>
+      </div>
+      <div class="quiz-box" id="qaBox"></div>
+    </section>
+
+    <section id="words">
+      <div class="section-head">
+        <div>
+          <h2>Словарик ребёнка</h2>
+          <p class="section-note">Сложные слова — простыми словами, чтобы ребёнку было легко понять.</p>
+        </div>
+      </div>
+      <div class="words" id="wordsBox"></div>
+    </section>
+
+    <section id="parent">
+      <div class="section-head">
+        <div>
+          <h2>Для родителя</h2>
+          <p class="section-note">Как заниматься дома 5–7 минут в день.</p>
+        </div>
+      </div>
+      <div class="parent-grid">
+        <div class="parent-card"><h3>Как заниматься</h3><p>Одна карточка в день. Прочитать вместе. Объяснить на простом примере. Повторить ответ. Сделать маленькое действие дня.</p></div>
+        <div class="parent-card"><h3>Самое важное</h3><p>Не пугать и не давить. Сначала интерес и любовь к знанию, потом уверенный ответ. Детское сердце — как сад: ему нужен свет, вода и забота.</p></div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <b>Важно:</b> это учебный тестовый материал для ознакомления и будущей доработки. Основа идеи — тема Asar Forum «Разъяснение детям книги “Три основы и их доказательства”» и связанный материал «Разъяснение основ веры детям». Перед публикацией аяты, хадисы и религиозные формулировки нужно проверить по достоверным источникам и у знающего специалиста.
+    </div>
+  </main>
+
+  <div class="modal" id="modal" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <div><h3 id="modalTitle"></h3><p id="modalText"></p></div>
+        <button class="close" onclick="closeModal()">Понятно</button>
+      </div>
+      <div class="answer" id="modalAnswer"></div>
+    </div>
+  </div>
+
+<script>
+const lessons = [
+{t:'Что такое «Три основы»?',a:'Три основы — это три важных знания: знать своего Господа, знать свою религию и знать своего Пророка ﷺ.',why:'Это как три главные двери знания. Открыл их — начал понимать свою веру.',q:'Какие три вещи важно знать?',act:'Повтори три основы вслух вместе с родителем.'},
+{t:'Кто твой Господь?',a:'Мой Господь — Аллах.',why:'Ребёнок учится понимать, Кто создал его и заботится о нём.',q:'Кто твой Господь?',act:'Назови одну милость Аллаха и скажи: «Альхамдулиллях».'},
+{t:'Как ты узнаёшь Аллаха?',a:'Я узнаю Аллаха по Его знамениям и творениям.',why:'Небо, земля, день, ночь, дождь и жизнь вокруг напоминают о Творце.',q:'По чему мы узнаём нашего Господа?',act:'Посмотри на небо или дерево и скажи, что это создал Аллах.'},
+{t:'Кому мы поклоняемся?',a:'Мы поклоняемся только Аллаху.',why:'Поклонение принадлежит только Тому, Кто создал всё и управляет всем.',q:'Кому мусульманин поклоняется?',act:'Сделай одно доброе дело ради Аллаха.'},
+{t:'Что такое Таухид?',a:'Таухид — это знать, что Аллах Один, и поклоняться только Ему.',why:'Это основа веры. Как фундамент у дома: без него всё шатается.',q:'Что значит Таухид?',act:'Повтори: «Аллах Один, и поклонение только Ему».'},
+{t:'Почему мы изучаем Таухид?',a:'Чтобы правильно знать Аллаха и поклоняться только Ему.',why:'Когда ребёнок знает главное, он увереннее идёт по жизни.',q:'Зачем нам изучать Таухид?',act:'Объясни Таухид своими словами одним предложением.'},
+{t:'Что такое Рубубийя?',a:'Рубубийя — это знать, что Аллах создал всё, владеет всем и управляет всем.',why:'Ребёнок понимает: мир не сам по себе, у него есть Создатель.',q:'Кто создал всё и управляет всем?',act:'Назови три творения Аллаха вокруг себя.'},
+{t:'Что такое Улюхийя?',a:'Улюхийя — это поклоняться только Аллаху.',why:'Знание о Творце должно вести к правильному поклонению.',q:'Кому мы делаем намаз и ду’а?',act:'Попроси Аллаха о полезном знании.'},
+{t:'Имена и качества Аллаха',a:'Мы верим в имена и качества Аллаха так, как пришло в Коране и Сунне. Аллах не похож на творения.',why:'Ребёнок учится уважительно говорить об Аллахе без сравнения с людьми.',q:'Похож ли Аллах на Свои создания?',act:'Выучи: Аллах слышит всё, видит всё и знает всё.'},
+{t:'Что такое поклонение?',a:'Поклонение — это всё, что любит Аллах: молитва, ду’а, добро, благодарность, послушание.',why:'Ребёнок видит, что поклонение — это не только слова, но и дела.',q:'Какие дела любит Аллах?',act:'Помоги родителям и сделай намерение ради Аллаха.'},
+{t:'Что такое ду’а?',a:'Ду’а — это когда мы просим Аллаха.',why:'Ребёнок учится обращаться за помощью к Аллаху.',q:'У Кого мы просим помощи?',act:'Скажи: «О Аллах, помоги мне быть хорошим».'},
+{t:'Что такое Ислам?',a:'Ислам — это подчиняться Аллаху, поклоняться только Ему и следовать Его религии.',why:'Ребёнок понимает, что Ислам — это путь жизни и поклонения.',q:'Что такое Ислам?',act:'Назови одно хорошее дело, которому учит Ислам.'},
+{t:'Какая твоя религия?',a:'Моя религия — Ислам.',why:'Это один из главных ответов, который ребёнок должен знать спокойно и уверенно.',q:'Какая твоя религия?',act:'Повтори ответ красиво и спокойно.'},
+{t:'На чём строится Ислам?',a:'Ислам строится на пяти столпах.',why:'Столпы — это как крепкие колонны здания.',q:'Сколько столпов у Ислама?',act:'Посчитай пять пальцев и вспомни пять столпов.'},
+{t:'Что такое шахада?',a:'Шахада — свидетельство, что нет достойного поклонения, кроме Аллаха, и Мухаммад ﷺ — посланник Аллаха.',why:'Это дверь в Ислам и главный смысл поклонения.',q:'Что означает шахада простыми словами?',act:'Скажи смысл шахады по-русски.'},
+{t:'Что такое намаз?',a:'Намаз — это молитва, которую мусульманин совершает для Аллаха.',why:'Намаз соединяет сердце с поклонением Аллаху.',q:'Для Кого мы совершаем намаз?',act:'Понаблюдай, как взрослый делает намаз, и спроси один вопрос.'},
+{t:'Что такое закят?',a:'Закят — это обязательная помощь нуждающимся из имущества мусульманина.',why:'Ислам учит не быть жадным и помогать тем, кому трудно.',q:'Кому помогает закят?',act:'Поделись чем-то хорошим с другим человеком.'},
+{t:'Что такое пост?',a:'Пост — поклонение Аллаху, когда мусульманин в Рамадан не ест и не пьёт днём ради Аллаха.',why:'Пост учит терпению, благодарности и послушанию.',q:'Чему учит пост?',act:'Сегодня потренируй терпение: не спорь из-за мелочи.'},
+{t:'Что такое хадж?',a:'Хадж — это паломничество к Дому Аллаха в Мекке для тех, кто может.',why:'Ребёнок узнаёт, что у мусульман есть великие виды поклонения.',q:'Куда совершают хадж?',act:'Найди на карте Мекку вместе с родителем.'},
+{t:'Что такое Иман?',a:'Иман — это вера.',why:'Вера — это не пустое слово: у неё есть основы.',q:'Что такое Иман?',act:'Скажи: «Иман — это вера».'},
+{t:'Шесть столпов Имана',a:'Мусульманин верит в Аллаха, ангелов, книги, посланников, Судный день и предопределение.',why:'Так ребёнок узнаёт, во что верит мусульманин.',q:'Сколько столпов Имана?',act:'Назови хотя бы три столпа Имана.'},
+{t:'Что такое Ихсан?',a:'Ихсан — поклоняться Аллаху красиво и искренне, зная, что Аллах видит тебя.',why:'Это учит ребёнка честности даже тогда, когда никто из людей не смотрит.',q:'Кто видит нас всегда?',act:'Сделай хорошее дело тихо, без похвалы людей.'},
+{t:'Кто твой Пророк ﷺ?',a:'Мой Пророк — Мухаммад ﷺ.',why:'Это третья главная основа.',q:'Кто твой Пророк ﷺ?',act:'Повтори ответ с уважением.'},
+{t:'Что значит «посланник Аллаха»?',a:'Это значит, что Аллах отправил его к людям, чтобы он научил их поклоняться одному Аллаху.',why:'Ребёнок понимает роль Пророка ﷺ.',q:'Чему учил Пророк ﷺ?',act:'Назови одно хорошее качество Пророка ﷺ.'},
+{t:'К кому был послан Мухаммад ﷺ?',a:'Пророк Мухаммад ﷺ был послан ко всем людям.',why:'Его послание не для одного народа, а для всех.',q:'Ко всем ли людям был послан Пророк ﷺ?',act:'Скажи: «Пророк ﷺ был послан ко всем людям».'},
+{t:'Почему мы любим Пророка ﷺ?',a:'Потому что Аллах сделал его посланником, и через него люди узнали Ислам.',why:'Любовь к Пророку ﷺ помогает следовать его пути.',q:'Почему мусульмане любят Пророка ﷺ?',act:'Узнай один факт из жизни Пророка ﷺ.'},
+{t:'Что значит любить путь Пророка ﷺ?',a:'Это значит учиться его пути и делать то, чему он учил.',why:'Любовь без следования похожа на обещание без дела.',q:'Что значит любить путь Пророка ﷺ?',act:'Сегодня скажи правду, даже если трудно.'},
+{t:'Что такое Коран?',a:'Коран — это Слово Аллаха.',why:'Ребёнок узнаёт главный источник знания мусульман.',q:'Что такое Коран?',act:'Послушай короткую суру вместе с родителем.'},
+{t:'Что такое Сунна?',a:'Сунна — это путь Пророка ﷺ: его слова, дела и пример.',why:'Сунна показывает, как правильно жить и поклоняться.',q:'Что такое Сунна?',act:'Вспомни одно доброе качество, которому учил Пророк ﷺ.'},
+{t:'Что такое знание?',a:'Знание — это узнать истину об Аллахе, Его религии и Его Пророке ﷺ.',why:'Сначала человек учится, потом делает правильно.',q:'Что сначала: знание или действие?',act:'Выучи один короткий ответ из карточек.'},
+{t:'Что делать после знания?',a:'Нужно поступать по знанию.',why:'Знание без дела — как фонарь, который не включили.',q:'Что нужно делать после знания?',act:'Примени одно знание сегодня.'},
+{t:'Что такое призыв?',a:'Призыв — это мягко напоминать о добре.',why:'Ребёнок учится доброте, а не спору.',q:'Как надо напоминать о добре?',act:'Скажи кому-то доброе слово.'},
+{t:'Что такое терпение?',a:'Терпение — продолжать делать добро, даже когда трудно.',why:'Вера растёт не только в лёгкие дни.',q:'Что такое терпение?',act:'Доведи одно полезное дело до конца.'},
+{t:'Что такое Судный день?',a:'Судный день — день, когда Аллах воскресит людей и спросит их за дела.',why:'Ребёнок понимает ответственность за поступки.',q:'Кто знает все наши дела?',act:'Попроси у Аллаха прощения за ошибку.'},
+{t:'Что такое Рай?',a:'Рай — прекрасная награда, которую Аллах приготовил верующим.',why:'Это учит ребёнка надеяться на милость Аллаха и любить добро.',q:'Что такое Рай?',act:'Назови одно доброе дело, которое любит Аллах.'},
+{t:'Что такое Ад?',a:'Ад — наказание для тех, кто ослушался Аллаха и не покаялся.',why:'Тему надо объяснять мягко: Аллах справедлив, а покаяние открыто.',q:'Что нужно делать, если ошибся?',act:'Скажи: «О Аллах, прости меня».'},
+{t:'Что такое предопределение?',a:'Это вера в то, что Аллах всё знает и всё происходит по Его мудрости.',why:'Ребёнок учится благодарить в хорошем и терпеть в трудном.',q:'Что мы говорим, когда случилось хорошее?',act:'За хорошее скажи «Альхамдулиллях».'},
+{t:'Что такое ширк?',a:'Ширк — придавать Аллаху сотоварищей в поклонении.',why:'Ребёнку важно знать: поклонение только Аллаху.',q:'Можно ли поклоняться кому-то кроме Аллаха?',act:'Повтори: «Поклонение — только Аллаху».'},
+{t:'Что такое тагут?',a:'Для маленьких детей коротко: это всё, чему поклоняются помимо Аллаха и что уводит от поклонения Аллаху.',why:'Глубоко эту тему лучше оставить для старшего уровня и родителя.',q:'Кому принадлежит поклонение?',act:'Вернись к карточке про Таухид и повтори её.'},
+{t:'Три главных вопроса',a:'Кто твой Господь? Какая твоя религия? Кто твой Пророк ﷺ?',why:'Это итог всего маршрута.',q:'Назови три главных вопроса и ответы на них.',act:'Проведи мини-повторение с родителем за 2 минуты.'}
+];
+const basis = [
+{title:'Кто твой Господь?',text:'Мой Господь — Аллах. Он создал меня, заботится обо мне и обо всём мире.',answer:'Короткий ответ ребёнка: «Мой Господь — Аллах». Для чего нужно: чтобы ребёнок знал, от Кого жизнь, милость и забота.'},
+{title:'Какая твоя религия?',text:'Моя религия — Ислам. Ислам учит поклоняться Аллаху, делать добро, говорить правду и любить путь Пророка ﷺ.',answer:'Короткий ответ ребёнка: «Моя религия — Ислам». Для чего нужно: чтобы ребёнок понимал свой путь.'},
+{title:'Кто твой Пророк ﷺ?',text:'Мой Пророк — Мухаммад ﷺ. Аллах отправил его, чтобы научить людей поклоняться одному Аллаху.',answer:'Короткий ответ ребёнка: «Мой Пророк — Мухаммад ﷺ». Для чего нужно: чтобы ребёнок знал, чей пример он изучает.'}
+];
+const words = [
+['Таухид','Аллах Один, и поклонение только Ему.'],['Рубубийя','Аллах создал всё, владеет всем и управляет всем.'],['Улюхийя','Поклонение только Аллаху.'],['Асма уа-с-Сыфат','Имена и качества Аллаха, как пришло в Коране и Сунне, без сравнения с творениями.'],['Иман','Вера.'],['Ихсан','Поклоняться Аллаху искренне, зная, что Он видит тебя.'],['Ду’а','Просьба к Аллаху.'],['Далиль','Доказательство из Корана или Сунны.'],['Шахада','Свидетельство, что поклонение только Аллаху, а Мухаммад ﷺ — посланник Аллаха.'],['Сунна','Путь Пророка ﷺ: его слова, дела и пример.'],['Судный день','День, когда Аллах воскресит людей и спросит за дела.'],['Предопределение','Аллах всё знает, и всё происходит по Его мудрости.']
+];
+let current = 0;
+let done = JSON.parse(localStorage.getItem('triDone')||'[]');
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+function renderLessons(){
+ const list=document.getElementById('lessonList');
+ list.innerHTML=lessons.map((l,i)=>`<button class="lesson-item ${i===current?'active':''} ${done.includes(i)?'done':''}" onclick="selectLesson(${i})"><span class="lesson-no">${i+1}</span><span><span class="lesson-title">${l.t}</span><span class="lesson-meta">карточка ${i+1} из ${lessons.length}</span></span></button>`).join('');
+ renderPanel(); updateProgress(); renderQA(); renderWords();
+}
+function renderPanel(){
+ const l=lessons[current];
+ document.getElementById('lessonPanel').innerHTML=`
+  <span class="kicker">Карточка ${current+1} из ${lessons.length}</span>
+  <h3>${l.t}</h3>
+  <div class="lesson-block"><strong>Короткий ответ</strong>${l.a}</div>
+  <div class="lesson-block"><strong>Для чего это нужно</strong>${l.why}</div>
+  <div class="lesson-block"><strong>Вопрос ребёнку</strong>${l.q}</div>
+  <div class="lesson-block"><strong>Действие дня</strong>${l.act}</div>
+  <div class="check-row">
+   <button class="done-btn" onclick="markDone(${current})">Я понял</button>
+   <button class="reset-btn" onclick="nextLesson()">Дальше</button>
+  </div>
+  <p class="small" style="margin-top:14px">Совет: лучше пройти одну карточку спокойно, чем много сразу и всё перемешать.</p>`;
+}
+function selectLesson(i){current=i;renderLessons();}
+function nextLesson(){current=Math.min(lessons.length-1,current+1);renderLessons();}
+function markDone(i){if(!done.includes(i)){done.push(i);localStorage.setItem('triDone',JSON.stringify(done));} if(i<lessons.length-1) current=i+1; renderLessons();}
+function resetProgress(){if(confirm('Начать путь заново?')){done=[];localStorage.setItem('triDone','[]');renderLessons();}}
+function updateProgress(){
+ const pct=Math.round(done.length/lessons.length*100);
+ document.getElementById('progressFill').style.width=pct+'%';
+ document.getElementById('doneCount').textContent=done.length;
+ document.getElementById('leftCount').textContent=lessons.length-done.length;
+ document.getElementById('starCount').textContent=done.length;
+ document.getElementById('progressText').textContent=done.length?`Выучено ${done.length} из ${lessons.length}. Знание крепнет.`:'Пока ничего не отмечено. Начни с первой карточки — и первый шаг уже сделан.';
+}
+function renderQA(){
+ const first=[0,1,4,12,14,20,22,27].map(i=>lessons[i]);
+ document.getElementById('qaBox').innerHTML=first.map(l=>`<div class="qa"><b>${l.q}</b><p>${l.a}</p></div>`).join('');
+}
+function renderWords(){
+ document.getElementById('wordsBox').innerHTML=words.map(w=>`<div class="word-card"><h3>${w[0]}</h3><p>${w[1]}</p></div>`).join('');
+}
+function openBasis(i){document.getElementById('modalTitle').textContent=basis[i].title;document.getElementById('modalText').textContent=basis[i].text;document.getElementById('modalAnswer').textContent=basis[i].answer;document.getElementById('modal').classList.add('open');}
+function closeModal(e){if(!e || e.target.id==='modal'){document.getElementById('modal').classList.remove('open');}}
+renderLessons();
+</script>
+</body>
+</html>
