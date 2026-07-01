@@ -192,7 +192,7 @@
       <div class="section-head">
         <div>
           <h2>Три главные основы</h2>
-          <p class="section-note">Нажми на карточку — увидишь простой ответ и объяснение.</p>
+          <p class="section-note">Нажми на карточку — откроется простой ответ и объяснение.</p>
         </div>
       </div>
       <div class="grid">
@@ -206,7 +206,7 @@
       <div class="section-head">
         <div>
           <h2>40 коротких карточек</h2>
-          <p class="section-note">Это не лекции и не экзамен. В каждой карточке: короткий ответ, простой смысл, вопрос и маленькое доброе действие.</p>
+          <p class="section-note">Нажми на любую карточку слева — она откроется ниже. Внутри: короткий ответ, простой смысл, вопрос и маленькое доброе действие.</p>
         </div>
         <button class="reset-btn" onclick="resetProgress()">Начать заново</button>
       </div>
@@ -317,10 +317,11 @@ const words = [
 ];
 let current = 0;
 let done = JSON.parse(localStorage.getItem('triDone')||'[]');
-function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+function go(id){const el=document.getElementById(id); if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}}
+function showCard(){const panel=document.getElementById('lessonPanel'); if(panel){setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),60);}}
 function renderLessons(){
  const list=document.getElementById('lessonList');
- list.innerHTML=lessons.map((l,i)=>`<button class="lesson-item ${i===current?'active':''} ${done.includes(i)?'done':''}" onclick="selectLesson(${i})"><span class="lesson-no">${i+1}</span><span><span class="lesson-title">${l.t}</span><span class="lesson-meta">карточка ${i+1} из ${lessons.length}</span></span></button>`).join('');
+ list.innerHTML=lessons.map((l,i)=>`<button class="lesson-item ${i===current?'active':''} ${done.includes(i)?'done':''}" onclick="selectLesson(${i}, true)"><span class="lesson-no">${i+1}</span><span><span class="lesson-title">${l.t}</span><span class="lesson-meta">карточка ${i+1} из ${lessons.length}</span></span></button>`).join('');
  renderPanel(); updateProgress(); renderQA(); renderWords();
 }
 function renderPanel(){
@@ -338,9 +339,9 @@ function renderPanel(){
   </div>
   <p class="small" style="margin-top:14px">Совет: лучше пройти одну карточку спокойно, чем много сразу и всё перемешать.</p>`;
 }
-function selectLesson(i){current=i;renderLessons();}
-function nextLesson(){current=Math.min(lessons.length-1,current+1);renderLessons();}
-function markDone(i){if(!done.includes(i)){done.push(i);localStorage.setItem('triDone',JSON.stringify(done));} if(i<lessons.length-1) current=i+1; renderLessons();}
+function selectLesson(i, scrollToCard=false){current=i;renderLessons(); if(scrollToCard) showCard();}
+function nextLesson(){current=Math.min(lessons.length-1,current+1);renderLessons(); showCard();}
+function markDone(i){if(!done.includes(i)){done.push(i);localStorage.setItem('triDone',JSON.stringify(done));} if(i<lessons.length-1) current=i+1; renderLessons(); showCard();}
 function resetProgress(){if(confirm('Начать путь заново?')){done=[];localStorage.setItem('triDone','[]');renderLessons();}}
 function updateProgress(){
  const pct=Math.round(done.length/lessons.length*100);
